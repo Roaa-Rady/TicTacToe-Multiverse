@@ -24,7 +24,7 @@ int main() {
     cout << "1. X-O Game\n";
     cout << "3. Misere Tic-Tac-Toe";
     cout << "4. Obstacles Tic-Tac-Toe\n";
-    cout << "Enter your choice: ";
+    cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
 
