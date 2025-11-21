@@ -7,9 +7,7 @@
 
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
-//#include "Numerical_TicTacToe_UI.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Numerical_TicTacToe_UI.h"
-//#include "Numerical_TicTacToe_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Numerical_TicTacToe_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_UI.h"
