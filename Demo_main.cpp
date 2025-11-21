@@ -13,6 +13,8 @@
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Numerical_TicTacToe_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_UI.h"
+#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_Board.h"
+#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_UI.h"
 
 using namespace std;
 
@@ -26,6 +28,7 @@ int main() {
     cout << "1. X-O Game\n";
     cout << "2. Numerical Tic-Tac-Toe\n";
     cout << "3. Misere Tic-Tac-Toe";
+    cout << "4. Obstacles Tic-Tac-Toe\n";
     cout << "Enter your choice: ";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -72,6 +75,20 @@ int main() {
          delete[] players;
          delete game_ui;
      }
+         //Obstacles Tic-tac-Toe//
+ if (choice == 4) {
+    UI<char>* game_ui = new Obstacles_UI();
+    Board<char>* board = new Obstacles_Board();
+    Player<char>** players = game_ui->setup_players();
+
+    GameManager<char> game(board, players, game_ui);
+    game.run();
+
+    delete board;
+    for (int i = 0; i < 2; ++i) delete players[i];
+    delete[] players;
+    delete game_ui;
+}
      else {
          cout << "Invalid choice. Exiting...\n";
      }
