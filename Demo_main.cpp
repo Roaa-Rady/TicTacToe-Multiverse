@@ -78,7 +78,7 @@ else if (choice == 5) {
     GameManager<char> game(board, players, ui);
     game.run();
 
-   //3-in-row
+                  //3-in-row
     ui->display_final_result(board, players[0], players[1]);
 
     delete board;
