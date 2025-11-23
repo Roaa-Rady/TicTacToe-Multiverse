@@ -35,6 +35,23 @@ public:
     bool game_is_over(Player<char>* player) override;
 };
 
+//5x5 Tic-tac-Toe
+class TicTacToe5x5_Board : public Board<char> {
+private:
+    char blank_symbol;
+
+public:
+    TicTacToe5x5_Board();  
+
+    bool update_board(Move<char>* move) override;
+    int count_3_in_row(char sym);
+    bool is_win(Player<char>*) override;
+    bool is_lose(Player<char>*) override;
+    bool is_draw(Player<char>*) override;
+    bool game_is_over(Player<char>*) override;
+};
+
+
 
 
 
