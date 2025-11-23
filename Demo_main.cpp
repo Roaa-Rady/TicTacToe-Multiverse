@@ -11,6 +11,8 @@
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_TicTacToe_UI.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_TicTacToe_Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_TicTacToe_UI.h"
+#include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\25_TicTacToe_Board.h" //added
+#include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\25_TicTacToe_UI.h" //added
 
 using namespace std;
 
@@ -22,8 +24,9 @@ int main() {
     int choice;
     cout << "Choose a game:\n";
     cout << "1. X-O Game\n";
-    cout << "3. Misere Tic-Tac-Toe";
+    cout << "3. Misere Tic-Tac-Toe\n";
     cout << "4. Obstacles Tic-Tac-Toe\n";
+    cout << "5. 5x5 Tic-Tac-Toe\n"; //added
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -43,7 +46,7 @@ int main() {
         delete game_ui;
     }
     //Misere Tic-tac-Toe//
-if (choice == 3) {
+  else if (choice == 3) {
     UI<char>* ui = new Misere_TicTacToe_UI();
     Board<char>* board = new Misere_TicTacToe_Board();
     Player<char>** players = ui->setup_players();
@@ -57,13 +60,30 @@ if (choice == 3) {
     delete ui;
 }
 //Obstacles Tic-tac-Toe//
-if (choice == 4) {
+else if (choice == 4) {
     UI<char>* ui = new Obstacles_TicTacToe_UI();
     Board<char>* board = new Obstacles_TicTacToe_Board();
     Player<char>** players = ui->setup_players();
 
     GameManager<char> game(board, players, ui);
     game.run();
+
+    delete board;
+    for (int i = 0; i < 2; i++) delete players[i];
+    delete[] players;
+    delete ui;
+}
+    //5x5 Tic-Tac-Toe
+else if (choice == 5) {
+    TicTacToe5x5_UI* ui = new TicTacToe5x5_UI();
+    TicTacToe5x5_Board* board = new TicTacToe5x5_Board();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+    game.run();
+
+    // ??? ?????? ??????? ???? ?????? ??? ???? 3-in-row
+    ui->display_final_result(board, players[0], players[1]);
 
     delete board;
     for (int i = 0; i < 2; i++) delete players[i];
