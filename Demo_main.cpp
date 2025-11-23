@@ -7,12 +7,10 @@
 
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_TicTacToe_Board.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Misere_TicTacToe_UI.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_TicTacToe_Board.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\Obstacles_TicTacToe_UI.h"
 #include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\25_TicTacToe_Board.h" //added
 #include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\25_TicTacToe_UI.h" //added
+#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games _Board.h"
+#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games_UI.h"
 
 using namespace std;
 
