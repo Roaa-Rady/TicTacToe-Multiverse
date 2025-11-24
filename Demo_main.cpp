@@ -23,11 +23,11 @@ int main() {
     int choice;
     cout << "Choose a game:\n";
     cout << "1. X-O Game\n";
+    cout << "2. Numerical Tic-Tac-Toe\n";
     cout << "3. Misere Tic-Tac-Toe\n";
     cout << "4. Obstacles Tic-Tac-Toe\n";
     cout << "5. 5x5 Tic-Tac-Toe\n"; //added
-    cout << "6. Numerical Tic-Tac-Toe\n";
-    cout << "7. 4x4 Tic_Tac-Toe\n";
+    cout << "6. 4x4 Tic_Tac-Toe\n";
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -45,6 +45,21 @@ int main() {
         for (int i = 0; i < 2; ++i) delete players[i];
         delete[] players;
         delete game_ui;
+    }
+        //Numerical TicTacToe
+    else if (choice == 2) {
+    cout << "\n--- Starting Numerical Tic-Tac-Toe ---\n\n";
+    UI<int>* ui = new Numerical_TicTacToe_UI();
+    Board<int>* board = new Numerical_TicTacToe_Board();
+    Player<int>** players = ui->setup_players();
+
+    GameManager<int> game(board, players, ui);
+    game.run();
+
+    delete board;
+    for (int i = 0; i < 2; ++i) delete players[i];
+    delete[] players;
+    delete ui;
     }
     //Misere Tic-tac-Toe//
   else if (choice == 3) {
@@ -97,23 +112,8 @@ else if (choice == 5) {
     return 0;
 }
 
-//Numerical TicTacToe
-    else if (choice == 6) {
-    cout << "\n--- Starting Numerical Tic-Tac-Toe ---\n\n";
-    UI<int>* ui = new Numerical_TicTacToe_UI();
-    Board<int>* board = new Numerical_TicTacToe_Board();
-    Player<int>** players = ui->setup_players();
-
-    GameManager<int> game(board, players, ui);
-    game.run();
-
-    delete board;
-    for (int i = 0; i < 2; ++i) delete players[i];
-    delete[] players;
-    delete ui;
-    }
     //4x4 TicTacToe 
-    else if (choice == 7) {
+    else if (choice == 6) {
         cout << "\n--- Starting 4x4 Tic-Tac-Toe ---\n\n";
 
         TicTacToe4x4_UI ui;
