@@ -50,6 +50,31 @@ public:
     bool is_draw(Player<char>*) override;
     bool game_is_over(Player<char>*) override;
 };
+class TicTacToe4x4_Board : public Board<char> {
+public:
+    TicTacToe4x4_Board();
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* p) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+
+    bool is_cell_empty(int x, int y) const {
+        return get_value(x, y) == '.';
+    }
+
+    virtual char get_value(int x, int y) const {
+        if (x >= 0 && x < rows && y >= 0 && y < columns)
+            return board[x][y];
+        return '.';
+    }
+
+    void set_value(int x, int y, char val) {
+        if (x >= 0 && x < rows && y >= 0 && y < columns)
+            board[x][y] = val;
+    }
+};
+
 
 
 
