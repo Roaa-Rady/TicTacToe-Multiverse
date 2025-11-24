@@ -10,8 +10,8 @@
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games _Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games_UI.h"
 #include "BoardGame_Classes.h"
-#include "Numerical_TicTacToe_UI.h"
-#include "TicTacToe4x4_UI.h"
+#include "Games_UI.h"
+
 
 using namespace std;
 
