@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include "BoardGame_Classes.h"
 #include <iostream>
 #include <cstdlib>
@@ -50,6 +49,8 @@ public:
     bool is_draw(Player<char>*) override;
     bool game_is_over(Player<char>*) override;
 };
+
+//4x4 TicTacToe
 class TicTacToe4x4_Board : public Board<char> {
 public:
     TicTacToe4x4_Board();
@@ -73,6 +74,19 @@ public:
         if (x >= 0 && x < rows && y >= 0 && y < columns)
             board[x][y] = val;
     }
+};
+
+//Numerical TicTacToe
+class Numerical_TicTacToe_Board : public Board<int> {
+public:
+    Numerical_TicTacToe_Board();
+    bool update_board(Move<int>* move) override;
+    bool is_win(Player<int>* player) override;
+    bool is_lose(Player<int>* p) override;
+    bool is_draw(Player<int>* player) override;
+    bool game_is_over(Player<int>* player) override;
+    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == 0; }
+
 };
 
 
