@@ -7,8 +7,7 @@
 
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games _Board.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games_UI.h"
+#include"Games _Board.h"
 #include "BoardGame_Classes.h"
 #include "Games_UI.h"
 
@@ -106,11 +105,7 @@ else if (choice == 5) {
     delete[] players;
     delete ui;
 }
-     else {
-         cout << "Invalid choice. Exiting...\n";
-     }
-    return 0;
-}
+    
 
     //4x4 TicTacToe 
     else if (choice == 6) {
@@ -122,9 +117,8 @@ else if (choice == 5) {
 
         GameManager<char> game(board, players, &ui);
         game.run();
-
-        return 0;
         }
+        
     else {
             cout << "Invalid choice! Exiting...\n";
             }
