@@ -51,7 +51,14 @@ public:
     Board(int rows, int columns)
         : rows(rows), columns(columns), board(rows, vector<T>(columns)) {
     }
+    T get_value(int x, int y) const {
+        return board[x][y];
+    }
 
+    // Setter for a cell value
+    void set_value(int x, int y, T value) {
+        board[x][y] = value;
+    }
     /**
      * @brief Virtual destructor. Frees allocated board memory.
      */
