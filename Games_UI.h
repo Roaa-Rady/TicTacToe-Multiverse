@@ -1,6 +1,7 @@
 #pragma once
 #include "BoardGame_Classes.h"
 #include <iostream>
+#include <string>
 #include <cstdlib>
 using namespace std;
 //Misere game//
@@ -26,4 +27,11 @@ public:
     Move<char>* get_move(Player<char>* player) override;
     void display_final_result(TicTacToe5x5_Board* board, Player<char>* p1, Player<char>* p2);
 };
+class TicTacToe4x4_UI : public UI<char> {
+public:
+    TicTacToe4x4_UI();
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
 
+
+};
