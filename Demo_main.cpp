@@ -27,6 +27,7 @@ int main() {
     cout << "4. Obstacles Tic-Tac-Toe\n";
     cout << "5. 5x5 Tic-Tac-Toe\n"; //added
     cout << "6. 4x4 Tic_Tac-Toe\n";
+    cout << "7. SUS Game\n";
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -118,7 +119,24 @@ else if (choice == 5) {
         GameManager<char> game(board, players, &ui);
         game.run();
         }
-        
+
+
+     //------------ SUS Game -------------//
+ else if (choice == 7) {
+      UI<char>* ui = new SUS_UI();
+      Board<char>* board = new SUS_Board();
+      Player<char>** players = ui->setup_players();
+
+      GameManager<char> game(board, players, ui);
+      game.run();
+
+      delete board;
+      for (int i = 0; i < 2; i++) delete players[i];
+      delete[] players;
+      delete ui;
+    }
+
+    
     else {
             cout << "Invalid choice! Exiting...\n";
             }
