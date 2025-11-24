@@ -1,5 +1,5 @@
-
-
+#include <cstdlib>
+#include <ctime>
 #include <iostream> // Required for input/output operations (cout, cin)
 #include <string>   // Required for string
 #include <vector>   // Required for vector
@@ -9,6 +9,9 @@
 #include "XO_Classes.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games _Board.h"
 #include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games_UI.h"
+#include "BoardGame_Classes.h"
+#include "Numerical_TicTacToe_UI.h"
+#include "TicTacToe4x4_UI.h"
 
 using namespace std;
 
@@ -23,6 +26,8 @@ int main() {
     cout << "3. Misere Tic-Tac-Toe\n";
     cout << "4. Obstacles Tic-Tac-Toe\n";
     cout << "5. 5x5 Tic-Tac-Toe\n"; //added
+    cout << "6. Numerical Tic-Tac-Toe\n";
+    cout << "7. 4x4 Tic_Tac-Toe\n";
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -90,5 +95,41 @@ else if (choice == 5) {
          cout << "Invalid choice. Exiting...\n";
      }
     return 0;
+}
+
+//Numerical TicTacToe
+    else if (choice == 6) {
+    cout << "\n--- Starting Numerical Tic-Tac-Toe ---\n\n";
+    UI<int>* ui = new Numerical_TicTacToe_UI();
+    Board<int>* board = new Numerical_TicTacToe_Board();
+    Player<int>** players = ui->setup_players();
+
+    GameManager<int> game(board, players, ui);
+    game.run();
+
+    delete board;
+    for (int i = 0; i < 2; ++i) delete players[i];
+    delete[] players;
+    delete ui;
+    }
+    //4x4 TicTacToe 
+    else if (choice == 7) {
+        cout << "\n--- Starting 4x4 Tic-Tac-Toe ---\n\n";
+
+        TicTacToe4x4_UI ui;
+        Board<char>* board = new TicTacToe4x4_Board();
+        Player<char>** players = ui.setup_players();
+
+        GameManager<char> game(board, players, &ui);
+        game.run();
+
+        return 0;
+        }
+    else {
+            cout << "Invalid choice! Exiting...\n";
+            }
+
+            cout << "\nThank you for playing!\n";
+            return 0;
 }
 
