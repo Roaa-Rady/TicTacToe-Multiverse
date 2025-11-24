@@ -1,5 +1,5 @@
-﻿#include "Numerical_TicTacToe_Board.h"
-#include "Numerical_TicTacToe_UI.h"
+﻿#include "Games_Board.h"
+#include "Games_UI.h"
 
 #include <cstdlib>
 #include <ctime>
