@@ -7,7 +7,7 @@
 
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
-#include"Games _Board.h"
+#include"Games_Board.h"
 #include "BoardGame_Classes.h"
 #include "Games_UI.h"
 
