@@ -46,7 +46,7 @@ public:
     Move<int>* get_move(Player<int>* player) override;
 };
 
-// SUS game //
+// SUS Game //
 class SUS_UI : public UI<char> {
 public:
     SUS_UI();
@@ -54,5 +54,18 @@ public:
     Player<char>* create_player(string& name, char symbol, PlayerType type) override;
     Move<char>* get_move(Player<char>* player) override;
     void display_final_result(Player<char>* p1, Player<char>* p2); 
+    Player<char>** setup_players() override;
+};
+
+
+// FourInARow Game //
+class FourInARowUI : public UI<char> {
+public:
+    FourInARowUI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void display_final_result(Player<char>* p1, Player<char>* p2);
+
     Player<char>** setup_players() override;
 };
