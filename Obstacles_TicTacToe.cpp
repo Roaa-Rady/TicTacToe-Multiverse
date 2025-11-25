@@ -1,4 +1,4 @@
-#include"Games _Board.h"
+#include"Games_Board.h"
 #include"Games_UI.h"
 #include <iostream>
 #include <cstdlib>
