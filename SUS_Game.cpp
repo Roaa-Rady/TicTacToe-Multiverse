@@ -134,6 +134,7 @@ void SUS_Board::display_scores() {
 }
 
 
+
 // SUS_UI Implementation //
 
 SUS_UI::SUS_UI() : UI<char>("Welcome to SUS Game!", 3) {}
@@ -146,8 +147,21 @@ Player<char>* SUS_UI::create_player(string& name, char symbol, PlayerType type) 
 
 Move<char>* SUS_UI::get_move(Player<char>* player) {
     int x, y;
-    cout << player->get_name() << " (" << player->get_symbol() << "), enter your move (row column): ";
-    cin >> x >> y;
+
+    if (player->get_type() == PlayerType::HUMAN) {
+        cout << player->get_name() << " (" << player->get_symbol() << ") enter x y (0-2): ";
+        cin >> x >> y;
+    }
+    else {
+        Board<char>* board = player->get_board_ptr();
+        do {
+            x = rand() % 3;
+            y = rand() % 3;
+        } while (board->get_board_matrix()[x][y] != '.');
+
+        cout << player->get_name() << " (Computer) played (" << x << ", " << y << ")\n";
+    }
+
     return new Move<char>(x, y, player->get_symbol());
 }
 
@@ -156,12 +170,28 @@ Player<char>** SUS_UI::setup_players() {
     Player<char>** players = new Player<char>*[2];
 
     string name;
+    int choice;
+    PlayerType type;
+
+    // Player S
     cout << "Enter Player S name: ";
     cin >> name;
-    players[0] = create_player(name, 'S', PlayerType::HUMAN);
+
+    cout << "Choose Player S type (1-Human, 2-Computer): ";
+    cin >> choice;
+    type = (choice == 2 ? PlayerType::COMPUTER : PlayerType::HUMAN);
+
+    players[0] = create_player(name, 'S', type);
+
+    // Player U
     cout << "Enter Player U name: ";
     cin >> name;
-    players[1] = create_player(name, 'U', PlayerType::HUMAN);
+
+    cout << "Choose Player U type (1-Human, 2-Computer): ";
+    cin >> choice;
+    type = (choice == 2 ? PlayerType::COMPUTER : PlayerType::HUMAN);
+
+    players[1] = create_player(name, 'U', type);
 
     return players;
 }
