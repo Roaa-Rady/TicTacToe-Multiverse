@@ -107,6 +107,26 @@ public:
 };
 
 
+// FourInARow Game //
+class FourInARowBoard : public Board<char> {
+private:
+    static const int ROWS = 6;
+    static const int COLS = 7;
+
+public:
+    FourInARowBoard();
+
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* player) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+    bool isColumnFull(int col) const;
+    int dropToBottom(int col, char symbol);
+    bool checkFour(char symbol) const;
+};
+
+
 
 
 
