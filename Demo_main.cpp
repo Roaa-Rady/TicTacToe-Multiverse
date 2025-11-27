@@ -112,7 +112,7 @@ else if (choice == 5) {
     
 
     //4x4 TicTacToe 
-    else if (choice == 6) {
+    else if (choice == 10) {
         cout << "\n--- Starting 4x4 Tic-Tac-Toe ---\n\n";
 
         TicTacToe4x4_UI ui;
