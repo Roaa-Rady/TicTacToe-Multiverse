@@ -8,7 +8,7 @@
 #include <cstdlib>
 #include <ctime>
 #include "BoardGame_Classes.h"
-#include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\Games _Board.h"
+#include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\Games_Board.h"
 #include"C:\Users\Roaa Rady\source\repos\Gamesss\Gamesss\Games_UI.h"
 using namespace std;
 
