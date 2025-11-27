@@ -51,7 +51,7 @@ Move<char>* Word_TicTacToe_UI::get_move(Player<char>* player) {
             cin >> letter;
             letter = toupper(letter);
 
-           
+           //check if the input is a letter
             if (letter < 'A' || letter > 'Z') {
                 cout << "Please enter a valid letter (A-Z)!\n";
                 continue;
