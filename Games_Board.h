@@ -3,6 +3,11 @@
 #include <iostream>
 #include <cstdlib>
 #include <deque>
+#include <set>
+#include <string>
+#include <fstream>
+#include <algorithm>
+#include <cctype>
 
 using namespace std;
 //misere game//
@@ -147,6 +152,88 @@ public:
     void display_board() const;
 };
 
+//Word Tic-Tac-Toe
+class Word_TicTacToe_Board : public Board<char> {
+private:
+    std::set<std::string> dictionary;
+    int moves_count = 0;  // بديل n_moves
+
+    void load_dictionary() {
+        std::ifstream file("dic.txt");
+        if (file.is_open()) {
+            std::string word;
+            while (file >> word) {
+                if (word.length() == 3) {
+                    std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+                    dictionary.insert(word);
+                }
+            }
+            file.close();
+        }
+        // if the player does not have the file dic.txt
+        if (dictionary.empty()) {
+            const std::string words[] = { "cat","dog","bat","rat","pat","sat","hat","bit","fit","hit",
+                                         "kit","lit","pit","sit","car","bar","far","jar","man","fan",
+                                         "run","sun","win","bin","ant","art","act","add","age","air" };
+            for (const auto& w : words) dictionary.insert(w);
+        }
+    }
+
+    bool has_valid_word() const {
+        auto check = [this](int r, int c, int dr, int dc) -> bool {
+            std::string s;
+            for (int i = 0; i < 3; ++i) {
+                char ch = board[r][c];
+                if (ch == ' ') return false;
+                s += tolower(ch);
+                r += dr; c += dc;
+            }
+            return dictionary.count(s);
+            };
+
+        for (int i = 0; i < 3; ++i)
+            if (check(i, 0, 0, 1) || check(0, i, 1, 0)) return true;
+        return check(0, 0, 1, 1) || check(0, 2, 1, -1);
+    }
+
+public:
+    Word_TicTacToe_Board() : Board<char>(3, 3) {
+        load_dictionary();
+        for (int i = 0; i < 3; ++i)
+            for (int j = 0; j < 3; ++j)
+                board[i][j] = ' ';
+    }
+
+    bool update_board(Move<char>* move) override {
+        int x = move->get_x(), y = move->get_y();
+        if (x < 0 || x >= 3 || y < 0 || y >= 3 || board[x][y] != ' ') return false;
+        board[x][y] = toupper(move->get_symbol());
+        moves_count++;
+        return true;
+    }
+
+    bool is_win(Player<char>*) override { return has_valid_word(); }
+    bool is_lose(Player<char>*) override { return false; }
+    bool is_draw(Player<char>*) override { return moves_count == 9 && !has_valid_word(); }
+    bool game_is_over(Player<char>*) override { return is_win(nullptr) || is_draw(nullptr); }
+
+    void display() const {
+        cout << "\n   0   1   2\n";
+        for (int i = 0; i < 3; ++i) {
+            cout << i << "  ";
+            for (int j = 0; j < 3; ++j) {
+                char c = board[i][j];
+                cout << (c == ' ' ? '.' : c);
+                if (j < 2) cout << " | ";
+            }
+            cout << "\n";
+            if (i < 2) cout << "  ---+---+---\n";
+        }
+        cout << "\n";
+    }
+
+    int get_moves_count() const { return moves_count; }
+};
 
 
 
