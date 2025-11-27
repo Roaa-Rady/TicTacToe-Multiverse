@@ -112,7 +112,7 @@ else if (choice == 5) {
     
 
     //4x4 TicTacToe 
-    else if (choice == 10) {
+    else if (choice == 6) {
         cout << "\n--- Starting 4x4 Tic-Tac-Toe ---\n\n";
 
         TicTacToe4x4_UI ui;
@@ -170,7 +170,7 @@ else if (choice == 8) {
   }
 
     // Word Tic-Tac-Toe
-  else if (choice == 6) {
+  else if (choice == 10) {
     Word_TicTacToe_UI* ui = new Word_TicTacToe_UI();
     Word_TicTacToe_Board* board = new Word_TicTacToe_Board();
     Player<char>** players = ui->setup_players();
