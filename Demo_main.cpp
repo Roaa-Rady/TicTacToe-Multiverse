@@ -30,6 +30,7 @@ int main() {
     cout << "7. SUS Game\n";
     cout << "8. Four in a row Game\n";
     cout << "9. Infinity Tic-Tac-Toe\n";
+    cout << "10. Word Tic-Tac-Toe\n"; 
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -167,6 +168,34 @@ else if (choice == 8) {
       delete[] players;
       delete ui;
   }
+
+    // Word Tic-Tac-Toe
+  else if (choice == 6) {
+    Word_TicTacToe_UI* ui = new Word_TicTacToe_UI();
+    Word_TicTacToe_Board* board = new Word_TicTacToe_Board();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+
+    
+    board->display();
+    game.run();
+
+          //who is the winner?
+    Player<char>* winner = nullptr;
+    if (board->is_win(nullptr)) {
+        winner = (board->get_moves_count() % 2 == 1) ? players[0] : players[1];
+    }
+
+    ui->show_result(board, winner);
+
+         //cleaning
+    delete board;
+    delete players[0];
+    delete players[1];
+    delete[] players;
+    delete ui;
+}
     
     else {
             cout << "Invalid choice! Exiting...\n";
