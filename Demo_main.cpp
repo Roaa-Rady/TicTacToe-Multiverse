@@ -25,7 +25,7 @@ int main() {
     cout << "2. Numerical Tic-Tac-Toe\n";
     cout << "3. Misere Tic-Tac-Toe\n";
     cout << "4. Obstacles Tic-Tac-Toe\n";
-    cout << "5. 5x5 Tic-Tac-Toe\n"; //added
+    cout << "5. 5x5 Tic-Tac-Toe\n"; 
     cout << "6. 4x4 Tic_Tac-Toe\n";
     cout << "7. SUS Game\n";
     cout << "8. Four in a row Game\n";
