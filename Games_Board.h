@@ -2,6 +2,8 @@
 #include "BoardGame_Classes.h"
 #include <iostream>
 #include <cstdlib>
+#include <deque>
+
 using namespace std;
 //misere game//
 class Misere_TicTacToe_Board : public Board<char> {
@@ -126,6 +128,24 @@ public:
     bool checkFour(char symbol) const;
 };
 
+
+// Infinity Tic-Tac-Toe //
+class InfinityTicTacToe_Board : public Board<char> {
+private:
+    std::deque<std::pair<std::pair<int, int>, char>> move_history;
+    void remove_oldest_move();
+    bool check_current_win(char sym) const;
+
+public:
+    InfinityTicTacToe_Board();
+
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* player) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+    void display_board() const;
+};
 
 
 
