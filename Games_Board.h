@@ -8,6 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cctype>
+#include <vector>
 
 using namespace std;
 //misere game//
@@ -235,6 +236,16 @@ public:
     int get_moves_count() const { return moves_count; }
 };
 
+//Pyramid TicTacToe
+class Pyramid_TicTacToe_Board : public Board<char> {
+public:
+    Pyramid_TicTacToe_Board();
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* p) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
 
+};
 
 
