@@ -1,7 +1,6 @@
 #pragma once
 #include "BoardGame_Classes.h"
-#include "TicTacToe4x4_Board.h"
-#include "Numerical_TicTacToe_Board.h"
+#include"Games _Board.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -45,3 +44,12 @@ public:
     Player<int>* create_player(string& name, int symbol, PlayerType type) override;
     Move<int>* get_move(Player<int>* player) override;
 };
+//Pyramid TicTacToe
+class Pyramid_TicTacToe_UI : public UI<char> {
+public:
+    Pyramid_TicTacToe_UI();
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void display_board_matrix(const vector<vector<char>>& matrix) const override;
+};
+

@@ -2,6 +2,7 @@
 #include "BoardGame_Classes.h"
 #include <iostream>
 #include <cstdlib>
+#include <vector>
 using namespace std;
 //misere game//
 class Misere_TicTacToe_Board : public Board<char> {
@@ -86,6 +87,18 @@ public:
     bool is_draw(Player<int>* player) override;
     bool game_is_over(Player<int>* player) override;
     bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == 0; }
+
+};
+
+//Pyramid TicTacToe
+class Pyramid_TicTacToe_Board : public Board<char> {
+public:
+    Pyramid_TicTacToe_Board();
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* p) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
 
 };
 
