@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cctype>
-#include <vector>
+
 
 using namespace std;
 //misere game//
