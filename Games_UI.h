@@ -53,3 +53,48 @@ public:
     void display_board_matrix(const vector<vector<char>>& matrix) const override;
 };
 
+
+// SUS Game //
+class SUS_UI : public UI<char> {
+public:
+    SUS_UI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void display_final_result(Player<char>* p1, Player<char>* p2); 
+    Player<char>** setup_players() override;
+};
+
+
+// FourInARow Game //
+class FourInARowUI : public UI<char> {
+public:
+    FourInARowUI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void display_final_result(Player<char>* p1, Player<char>* p2);
+
+    Player<char>** setup_players() override;
+};
+
+
+// Infinity Tic-Tac-Toe //
+class InfinityTicTacToe_UI : public UI<char> {
+public:
+    InfinityTicTacToe_UI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void display_final_result(Player<char>* p1, Player<char>* p2);
+    Player<char>** setup_players() override;
+};
+
+//Word Tic-Tac-Toe
+class Word_TicTacToe_UI : public UI<char> {
+public:
+    Word_TicTacToe_UI();
+    Player<char>* create_player(std::string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+    void show_result(const Word_TicTacToe_Board* board, Player<char>* winner) const;
+};

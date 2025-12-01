@@ -7,8 +7,7 @@
 
 #include "BoardGame_Classes.h"
 #include "XO_Classes.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games _Board.h"
-#include"C:\Users\dell\source\repos\Asss3.opp\Asss3\games_UI.h"
+#include"Games_Board.h"
 #include "BoardGame_Classes.h"
 #include "Games_UI.h"
 
@@ -26,8 +25,12 @@ int main() {
     cout << "2. Numerical Tic-Tac-Toe\n";
     cout << "3. Misere Tic-Tac-Toe\n";
     cout << "4. Obstacles Tic-Tac-Toe\n";
-    cout << "5. 5x5 Tic-Tac-Toe\n"; //added
+    cout << "5. 5x5 Tic-Tac-Toe\n"; 
     cout << "6. 4x4 Tic_Tac-Toe\n";
+    cout << "7. SUS Game\n";
+    cout << "8. Four in a row Game\n";
+    cout << "9. Infinity Tic-Tac-Toe\n";
+    cout << "10. Word Tic-Tac-Toe\n"; 
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -106,11 +109,7 @@ else if (choice == 5) {
     delete[] players;
     delete ui;
 }
-     else {
-         cout << "Invalid choice. Exiting...\n";
-     }
-    return 0;
-}
+    
 
     //4x4 TicTacToe 
     else if (choice == 6) {
@@ -122,9 +121,82 @@ else if (choice == 5) {
 
         GameManager<char> game(board, players, &ui);
         game.run();
-
-        return 0;
         }
+
+
+     //------------ SUS Game -------------//
+ else if (choice == 7) {
+      UI<char>* ui = new SUS_UI();
+      Board<char>* board = new SUS_Board();
+      Player<char>** players = ui->setup_players();
+
+      GameManager<char> game(board, players, ui);
+      game.run();
+
+      delete board;
+      for (int i = 0; i < 2; i++) delete players[i];
+      delete[] players;
+      delete ui;
+    }
+
+     //------------ FourInARow Game -------------//
+else if (choice == 8) {
+    UI<char>* ui = new FourInARowUI ();
+    Board<char>* board = new FourInARowBoard();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+    game.run();
+
+    delete board;
+    for (int i = 0; i < 2; i++) delete players[i];
+    delete[] players;
+    delete ui;
+}
+
+      //------------ InfinityTicTacToe -------------//
+  else if (choice == 9) {
+      UI<char>* ui = new InfinityTicTacToe_UI();
+      Board<char>* board = new InfinityTicTacToe_Board ();
+      Player<char>** players = ui->setup_players();
+
+      GameManager<char> game(board, players, ui);
+      game.run();
+
+      delete board;
+      for (int i = 0; i < 2; i++) delete players[i];
+      delete[] players;
+      delete ui;
+  }
+
+    // Word Tic-Tac-Toe
+  else if (choice == 10) {
+    Word_TicTacToe_UI* ui = new Word_TicTacToe_UI();
+    Word_TicTacToe_Board* board = new Word_TicTacToe_Board();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+
+    
+    board->display();
+    game.run();
+
+          //who is the winner?
+    Player<char>* winner = nullptr;
+    if (board->is_win(nullptr)) {
+        winner = (board->get_moves_count() % 2 == 1) ? players[0] : players[1];
+    }
+
+    ui->show_result(board, winner);
+
+         //cleaning
+    delete board;
+    delete players[0];
+    delete players[1];
+    delete[] players;
+    delete ui;
+}
+    
     else {
             cout << "Invalid choice! Exiting...\n";
             }
