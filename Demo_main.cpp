@@ -31,6 +31,7 @@ int main() {
     cout << "8. Four in a row Game\n";
     cout << "9. Infinity Tic-Tac-Toe\n";
     cout << "10. Word Tic-Tac-Toe\n"; 
+    cout << "11. Pyramid Tic-Tac-Toe\n";
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -196,6 +197,22 @@ else if (choice == 8) {
     delete[] players;
     delete ui;
 }
+  else if (choice == 11) {
+      cout << "\n--- Starting Pyramid Tic-Tac-Toe ---\n\n";
+
+      Pyramid_TicTacToe_UI* ui = new Pyramid_TicTacToe_UI();
+      Board<char>* board = new Pyramid_TicTacToe_Board();
+      Player<char>** players = ui->setup_players();
+
+      GameManager<char> game(board, players, ui);
+      game.run();
+
+      delete board;
+      for (int i = 0; i < 2; ++i) delete players[i];
+      delete[] players;
+      delete ui;
+      }
+
     
     else {
             cout << "Invalid choice! Exiting...\n";
