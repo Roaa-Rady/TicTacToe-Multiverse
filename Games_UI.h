@@ -1,6 +1,6 @@
 #pragma once
 #include "BoardGame_Classes.h"
-#include"Games _Board.h"
+#include"Games_Board.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
