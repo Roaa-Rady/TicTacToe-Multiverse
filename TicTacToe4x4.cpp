@@ -1,10 +1,12 @@
 #include "Games_Board.h"
 #include "Games_UI.h"
 #include <iostream>
-
+#include <limits>
+#include <algorithm>
+#include <cstdlib> // rand, srand
 using namespace std;
 
-//Board
+//Board implementation
 TicTacToe4x4_Board::TicTacToe4x4_Board() : Board<char>(4, 4) {
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
@@ -31,8 +33,6 @@ bool TicTacToe4x4_Board::update_board(Move<char>* move) {
     return true;
 }
     
-
-  //UI
 bool TicTacToe4x4_Board::is_win(Player<char>* player) {
     int s = player->get_symbol();
     //check rows
@@ -90,40 +90,148 @@ bool TicTacToe4x4_Board::game_is_over(Player<char>* player)
 {
     return is_win(player) || is_lose(player) || is_draw(player);
 }
-
-TicTacToe4x4_UI::TicTacToe4x4_UI() : UI<char>("Welcome to 4x4 Tic-Tac-Toe!", 3) {}
+//UI implementation
+TicTacToe4x4_UI::TicTacToe4x4_UI() : UI<char>("Welcome to 4x4 Tic-Tac-Toe!", 3) {
+      srand(static_cast<unsigned int>(std::time(nullptr)));
+}
 
 Player<char>* TicTacToe4x4_UI::create_player(string& name, char symbol, PlayerType type) {
     cout << "Creating player: " << name << endl;
     return new Player<char>(name, symbol, type);
 }
 
+//AI algorithm
+int evaluateSimple(Board<char>* b, char aiSymbol) {
+    char humanSymbol = (aiSymbol == 'X') ? 'O' : 'X';
+    Player<char> aiTmp("ai", aiSymbol, PlayerType::COMPUTER);
+    Player<char> huTmp("hu", humanSymbol, PlayerType::HUMAN);
+    if (b->is_win(&aiTmp)) return 1000;
+    if (b->is_win(&huTmp)) return -1000;
+    return 0;
+}
+
+
+bool movesLeftSimple(Board<char>* b) {
+    for (int r = 0; r < 4; ++r)
+        for (int c = 0; c < 4; ++c)
+            if (b->get_value(r, c) == '.') return true;
+    return false;
+}
+
+
+int minimax_simple(Board<char>* b, int depth, int maxDepth, int alpha, int beta, bool isMax, char aiSymbol) {
+    int score = evaluateSimple(b, aiSymbol);
+
+    
+    if (score == 1000) return score - depth;   
+    if (score == -1000) return score + depth; 
+   
+    if (depth >= maxDepth || !movesLeftSimple(b)) return 0;
+
+    char humanSymbol = (aiSymbol == 'X') ? 'O' : 'X';
+
+    if (isMax) {
+        int best = std::numeric_limits<int>::min();
+        for (int r = 0; r < 4; ++r) {
+            for (int c = 0; c < 4; ++c) {
+                if (b->get_value(r, c) == '.') {
+                    b->set_value(r, c, aiSymbol);
+                    int val = minimax_simple(b, depth + 1, maxDepth, alpha, beta, false, aiSymbol);
+                    b->set_value(r, c, '.'); 
+                    best = std::max(best, val);
+                    alpha = std::max(alpha, best);
+                    if (alpha >= beta) return best; 
+                }
+            }
+        }
+        return best;
+    }
+    else {
+        int best = std::numeric_limits<int>::max();
+        for (int r = 0; r < 4; ++r) {
+            for (int c = 0; c < 4; ++c) {
+                if (b->get_value(r, c) == '.') {
+                    b->set_value(r, c, humanSymbol);
+                    int val = minimax_simple(b, depth + 1, maxDepth, alpha, beta, true, aiSymbol);
+                    b->set_value(r, c, '.'); 
+                    best = std::min(best, val);
+                    beta = std::min(beta, best);
+                    if (alpha >= beta) return best; 
+                }
+            }
+        }
+        return best;
+    }
+}
+
+
+std::pair<int, int> findBestMove(Board<char>* b, char aiSymbol) {
+    std::pair<int, int> bestMove = { -1,-1 };
+    int bestVal = std::numeric_limits<int>::min();
+
+    const int MAX_DEPTH = 6; 
+    
+    std::vector<std::pair<int, int>> moves;
+    for (int r = 0; r < 4; ++r) for (int c = 0; c < 4; ++c)
+        if (b->get_value(r, c) == '.') moves.push_back({ r,c });
+
+ 
+    std::sort(moves.begin(), moves.end(), [](const pair<int, int>& a, const pair<int, int>& b) {
+        int scoreA = (a.first == 1 || a.first == 2) + (a.second == 1 || a.second == 2);
+        int scoreB = (b.first == 1 || b.first == 2) + (b.second == 1 || b.second == 2);
+        return scoreA > scoreB;
+        });
+
+    for (auto mv : moves) {
+        int r = mv.first, c = mv.second;
+        b->set_value(r, c, aiSymbol);
+        int moveVal = minimax_simple(b, 0, MAX_DEPTH, std::numeric_limits<int>::min(), std::numeric_limits<int>::max(), false, aiSymbol);
+        b->set_value(r, c, '.');
+        if (moveVal > bestVal) {
+            bestVal = moveVal;
+            bestMove = { r,c };
+        }
+    }
+
+    return bestMove;
+}
+
+
 Move<char>* TicTacToe4x4_UI::get_move(Player<char>* player) {
     int x, y;
     Board<char>* board = player->get_board_ptr();
-
+//Human
     if (player->get_type() == PlayerType::HUMAN) {
         cout << player->get_name() << " (" << player->get_symbol() << ") enter move (row col): ";
         cin >> x >> y;
         return new Move<char>(x, y, player->get_symbol());
     }
+         //AI
     else {
-        cout << player->get_name() << " (Computer) is thinking";
+        cout << player->get_name() << " AI is thinking";
 
-        while (true) {
-            cout << ".";
+       char AiSymbol = player->get_symbol();
+auto mv = findBestMove(board, AiSymbol);
+if (mv.first == -1) {
+    while (true) {
+        cout << ".";
 
-            x = rand() % 4;
-            y = rand() % 4;
+        x = rand() % 4;
+        y = rand() % 4;
 
 
-            if (board->get_value(x, y) == '.') {
+        if (board->get_value(x, y) == '.') {
 
-                cout << " -> (" << x << "," << y
-                    << ") with " << player->get_symbol() << endl;
+            cout << " -> (" << x << "," << y
+                << ") with " << AiSymbol << endl;
 
-                return new Move<char>(x, y, player->get_symbol());
-            }
-        }
+            return new Move<char>(x, y, AiSymbol);
+         }
+      }
+   }
+   else {
+      cout << " -> (" << mv.first << "," << mv.second << ") with " << AiSymbol << endl;
+      return new Move<char>(mv.first, mv.second, AiSymbol);
     }
+  }
 }
