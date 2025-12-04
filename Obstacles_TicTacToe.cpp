@@ -89,11 +89,16 @@ bool Obstacles_TicTacToe_Board::is_lose(Player<char>*) {
     return false;
 }
 
-bool Obstacles_TicTacToe_Board::is_draw(Player<char>* p) {
-    if (is_win(p)) return false;
-    return n_moves >= 36;
+bool Obstacles_TicTacToe_Board::is_draw(Player<char>* player) {
+    if (is_win(player)) return false;
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            if (board[i][j] == blank_symbol)
+                return false; 
+        }
+    }
+    return true;
 }
-
 bool Obstacles_TicTacToe_Board::game_is_over(Player<char>* p) {
     return is_win(p) || is_draw(p);
 }
