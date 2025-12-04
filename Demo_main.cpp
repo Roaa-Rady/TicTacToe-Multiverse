@@ -32,6 +32,7 @@ int main() {
     cout << "9. Infinity Tic-Tac-Toe\n";
     cout << "10. Word Tic-Tac-Toe\n"; 
     cout << "11. Pyramid Tic-Tac-Toe\n";
+    cout << "12. Diamond Tic-Tac-Toe\n";
     cout << "Enter your choice: \n";
     cin >> choice;
     cin.ignore(); // علشان يتجاهل الـnewline
@@ -212,6 +213,20 @@ else if (choice == 8) {
       delete[] players;
       delete ui;
       }
+       else if (choice == 12) {
+    UI<char>* ui = new Diamond_UI();
+    Board<char>* board = new Diamond_Board();
+    Player<char>** players = ui->setup_players();
+
+    GameManager<char> game(board, players, ui);
+    game.run();
+
+    delete board;
+    for (int i = 0; i < 2; i++) delete players[i];
+    delete[] players;
+    delete ui;
+}
+
 
     
     else {
