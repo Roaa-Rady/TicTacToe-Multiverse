@@ -35,6 +35,7 @@ bool TicTacToe4x4_Board::update_board(Move<char>* move) {
   //UI
 bool TicTacToe4x4_Board::is_win(Player<char>* player) {
     int s = player->get_symbol();
+    //check rows
     for (int r = 0; r < 4; r++) {
         for (int c = 0; c <=1; c++) {
             if (board[r][c] == s &&
@@ -43,6 +44,7 @@ bool TicTacToe4x4_Board::is_win(Player<char>* player) {
                 return true;
         }
     }
+    //check columns
     for (int c = 0; c < 4; c++) {
         for (int r = 0; r <= 1; r++) {
             if (board[r][c] == s &&
@@ -51,8 +53,25 @@ bool TicTacToe4x4_Board::is_win(Player<char>* player) {
                 return true;
         }
     }
-    if (board[0][0] == s && board[1][1] == s && board[2][2] == s) return true;
-    if (board[1][1] == s && board[2][2] == s && board[3][3] == s) return true;
+      // check diagonals from top left to bottom right
+  for (int r = 0; r <= 1; ++r) {
+    for (int c = 0; c <= 1; ++c) {
+        if (board[r][c] == s &&
+            board[r + 1][c + 1] == s &&
+            board[r + 2][c + 2] == s)
+            return true;
+    }
+}
+
+    //check diagonals from top right to bottom left
+for (int r = 0; r <= 1; ++r) {
+    for (int c = 0; c <= 1; ++c) {
+        if (board[r][c + 2] == s &&
+            board[r + 1][c + 1] == s &&
+            board[r + 2][c] == s)
+            return true;
+    }
+}
 
     return false;
 
