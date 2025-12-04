@@ -98,3 +98,13 @@ public:
     Move<char>* get_move(Player<char>* player) override;
     void show_result(const Word_TicTacToe_Board* board, Player<char>* winner) const;
 };
+
+/Diamond game//
+class Diamond_UI : public UI<char> {
+public:
+    Diamond_UI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+
+    Move<char>* get_move(Player<char>* player) override;
+};
