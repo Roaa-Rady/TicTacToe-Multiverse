@@ -55,11 +55,56 @@ int TicTacToe5x5_Board::count_3_in_row(char sym) {
     return count;
 }
 
-bool TicTacToe5x5_Board::is_win(Player<char>*) { return false; }
-bool TicTacToe5x5_Board::is_lose(Player<char>*) { return false; }
-bool TicTacToe5x5_Board::is_draw(Player<char>*) { return n_moves >= 25; }
-bool TicTacToe5x5_Board::game_is_over(Player<char>*) { return n_moves >= 25; }
+bool TicTacToe5x5_Board::is_win(Player<char>* p) {
+    if (!p) return false;
+    if (!game_is_over(p)) return false; 
 
+    int my_count = count_3_in_row(p->get_symbol());
+    char other = '.'; 
+    for (auto& row : board)
+        for (auto& c : row)
+            if (c != '.' && c != p->get_symbol())
+                other = c;
+
+    int other_count = count_3_in_row(other);
+
+    return my_count > other_count;
+}
+
+bool TicTacToe5x5_Board::is_lose(Player<char>* p) {
+    if (!p) return false;
+    if (!game_is_over(p)) return false;
+
+    int my_count = count_3_in_row(p->get_symbol());
+
+    char other = '.';
+    for (auto& row : board)
+        for (auto& c : row)
+            if (c != '.' && c != p->get_symbol())
+                other = c;
+
+    int other_count = count_3_in_row(other);
+
+    return my_count < other_count;
+}
+
+bool TicTacToe5x5_Board::is_draw(Player<char>* p) {
+    if (!p) return false;
+    if (!game_is_over(p)) return false;
+
+    int my_count = count_3_in_row(p->get_symbol());
+
+    char other = '.';
+    for (auto& row : board)
+        for (auto& c : row)
+            if (c != '.' && c != p->get_symbol())
+                other = c;
+
+    int other_count = count_3_in_row(other);
+
+    return my_count == other_count;
+}
+bool TicTacToe5x5_Board::game_is_over(Player<char>*) { return n_moves >= 25; }
 // ------------------- UI Implementation -------------------
 TicTacToe5x5_UI::TicTacToe5x5_UI() : UI<char>("Welcome to 5x5 Tic Tac Toe!", 2) {}
 
