@@ -248,4 +248,26 @@ public:
 
 };
 
+/Diamond game//
+class Diamond_Board : public Board<char> {
+private:
+    char blank = '.';
+    char blocked = '#';
+
+public:
+    Diamond_Board();
+
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_draw(Player<char>* player) override;
+    bool is_lose(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+
+    bool inside_diamond(int x, int y) const;
+    bool is_cell_empty(int x, int y) const;
+
+private:
+    bool has_line(Player<char>* player, int length);
+};
+
 
