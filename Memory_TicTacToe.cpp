@@ -1,10 +1,9 @@
-#include "Memory_TicTacToe_Board.h"
-#include "Memory_TicTacToe_UI.h"
+#include "Games_Board.h"
+#include "Games_UI.h"
 #include <iostream>
 using namespace std;
 
 //Board
-
 Memory_TicTacToe_Board::Memory_TicTacToe_Board()
     : Board<char>(3, 3) {
     for (int i = 0; i < 3; i++)
@@ -80,7 +79,7 @@ void Memory_TicTacToe_UI::display_board_matrix(const vector<vector<char>>& matri
 Move<char>* Memory_TicTacToe_UI::get_move(Player<char>* player) {
     int x, y;
     auto* board = dynamic_cast<Memory_TicTacToe_Board*>(player->get_board_ptr());
-
+//Human
     if (player->get_type() == PlayerType::HUMAN) {
         while (true) {
             cout << player->get_name() << " enter row and column (0-2): ";
@@ -109,3 +108,4 @@ Move<char>* Memory_TicTacToe_UI::get_move(Player<char>* player) {
         return new Move<char>(x, y, player->get_symbol());
     }
 }
+
