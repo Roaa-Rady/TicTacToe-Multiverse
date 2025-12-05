@@ -38,12 +38,14 @@ public:
 };
 
 //Numerical TicTacToe
-class Numerical_TicTacToe_UI : public UI<int> {
+class Numerical_TicTacToe_UI : public UI<char> {
 public:
     Numerical_TicTacToe_UI();
-    Player<int>* create_player(string& name, int symbol, PlayerType type) override;
-    Move<int>* get_move(Player<int>* player) override;
+    
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
 };
+
 //Pyramid TicTacToe
 class Pyramid_TicTacToe_UI : public UI<char> {
 public:
