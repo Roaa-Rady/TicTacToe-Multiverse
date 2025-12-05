@@ -290,7 +290,7 @@ private:
     char blank = '.';
     int last_x = -1;
     int last_y = -1;
-
+    string current_playrer_name;
 public:
     Ultimate_Board();
 
@@ -299,12 +299,11 @@ public:
     bool is_lose(Player<char>* player) override;
     bool is_draw(Player<char>* player) override;
     bool game_is_over(Player<char>* player) override;
-
     bool is_sub_board_full(int sx, int sy);
     bool force_anywhere() const;
-
     vector<vector<Board<char>*>>& access_subBoards();
     pair<int, int> get_required_subboard() const { return { last_x, last_y }; }
-    void display_board(); // عرض كامل للبورد
+    void display_board(); // 
     bool main_board_win(char sym);
+void set_current_player_name(const string& n) { current_playrer_name = n; };
 };
