@@ -121,3 +121,13 @@ public:
     void display_board_matrix(const vector<vector<char>>& matrix) const override;
 
 };
+
+class Ultimate_UI : public UI<char> {
+public:
+    Ultimate_UI();
+
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+    Move<char>* get_move(Player<char>* player) override;
+
+    // void display_main_and_subboards(Ultimate_Board* board);
+};
