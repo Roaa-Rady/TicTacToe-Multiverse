@@ -248,6 +248,7 @@ bool TicTacToe5x5_Board::is_draw(Player<char>* p) {
     return my_count == other_count;
 }
 bool TicTacToe5x5_Board::game_is_over(Player<char>*) { return n_moves >= 25; }
+
 // ------------------- UI Implementation -------------------
 TicTacToe5x5_UI::TicTacToe5x5_UI() : UI<char>("Welcome to 5x5 Tic Tac Toe!", 2) {}
 
@@ -255,26 +256,26 @@ Player<char>* TicTacToe5x5_UI::create_player(string& name, char symbol, PlayerTy
     return new Player<char>(name, symbol, type);
 }
 
+//changed for AI player
 Move<char>* TicTacToe5x5_UI::get_move(Player<char>* player) {
-    int x, y;
-    Board<char>* b = player->get_board_ptr();
+    TicTacToe5x5_Board* board = static_cast<TicTacToe5x5_Board*>(player->get_board_ptr());
+    auto b = board->get_board_matrix();
+    char me = player->get_symbol();
+    char opp = (me == 'X') ? 'O' : 'X';
 
     if (player->get_type() == PlayerType::HUMAN) {
-        cout << player->get_name() << " enter x y (0-4): ";
+        int x, y;
+        cout << player->get_name() << " (" << me << ") enter row col (0-4): ";
         cin >> x >> y;
-    }
-    else {
-        do {
-            x = rand() % 5;
-            y = rand() % 5;
-        } while (b->get_board_matrix()[x][y] != '.');
-
-        cout << player->get_name() << " (Computer) played (" << x << "," << y << ")\n";
+        return new Move<char>(x, y, me);
     }
 
-    return new Move<char>(x, y, player->get_symbol());
+    
+    pair<int, int> move = get_best_move_5x5(b, me, opp);
+
+    cout << player->get_name() << " played (" << move.first << ", " << move.second << ")\n";
+    return new Move<char>(move.first, move.second, me);
 }
-
 void TicTacToe5x5_UI::display_final_result(TicTacToe5x5_Board* board, Player<char>* p1, Player<char>* p2) {
     int p1_count = board->count_3_in_row(p1->get_symbol());
     int p2_count = board->count_3_in_row(p2->get_symbol());
