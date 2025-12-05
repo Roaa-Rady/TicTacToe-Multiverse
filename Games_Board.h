@@ -85,16 +85,16 @@ public:
 };
 
 //Numerical TicTacToe
-class Numerical_TicTacToe_Board : public Board<int> {
+class Numerical_TicTacToe_Board : public Board<char> {
 public:
     Numerical_TicTacToe_Board();
-    bool update_board(Move<int>* move) override;
-    bool is_win(Player<int>* player) override;
-    bool is_lose(Player<int>* p) override;
-    bool is_draw(Player<int>* player) override;
-    bool game_is_over(Player<int>* player) override;
-    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == 0; }
-
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* p) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == ' '; }
+   
 };
 
 // SUS game //
