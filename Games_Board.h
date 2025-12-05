@@ -132,6 +132,11 @@ public:
     bool isColumnFull(int col) const;
     int dropToBottom(int col, char symbol);
     bool checkFour(char symbol) const;
+
+    int evaluate_window(const std::vector<char>& window, char symbol) const;
+ int evaluate_board(char symbol) const;  
+ int minimax(int depth, bool isMaximizing, char aiSymbol, char humanSymbol, int alpha = -1000000, int beta = 1000000);
+ int get_best_move(char aiSymbol, int maxDepth = 7);
 };
 
 
