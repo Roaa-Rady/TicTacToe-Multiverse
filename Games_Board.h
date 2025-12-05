@@ -269,5 +269,15 @@ public:
 private:
     bool has_line(Player<char>* player, int length);
 };
+//Memory TicTacToe
+class Memory_TicTacToe_Board : public Board<char> {
+     public:
+         Memory_TicTacToe_Board();
 
-
+         bool update_board(Move<char>* move) override;
+         bool is_win(Player<char>* player) override;
+         bool is_lose(Player<char>* player) override;
+         bool is_draw(Player<char>* player) override;
+         bool game_is_over(Player<char>* player) override;
+         bool is_empty_cell(int r, int c);
+};
