@@ -8,7 +8,7 @@
 using namespace std;
 
 
-// ====================== AI player ======================
+// ===================== AI player =====================
 int evaluate_5x5(const vector<vector<char>>& board, char me, char opp) {
     int score = 0;
     auto line = [&](int count_me, int count_opp) {
