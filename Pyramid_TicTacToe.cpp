@@ -1,5 +1,5 @@
-﻿#include "Pyramid_TicTacToe_Board.h"
-#include "Pyramid_TicTacToe_UI.h"
+#include "Games_Board.h"
+#include "Games_UI.h"
 #include <iostream>
 
 using namespace std;
