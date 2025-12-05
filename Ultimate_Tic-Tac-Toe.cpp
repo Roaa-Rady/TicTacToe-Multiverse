@@ -9,18 +9,18 @@ using namespace std;
 
 // ---------------- Ultimate Board ----------------
 Ultimate_Board::Ultimate_Board()
-    : Board<char>(9, 9)  // Main board 9x9 لعرض كل Sub-boards
+    : Board<char>(9, 9)  // 
 {
     subBoards.resize(3, vector<Board<char>*>(3, nullptr));
-    main_board_status.resize(3, vector<char>(3, '.')); // حالة كل Sub-board
+    main_board_status.resize(3, vector<char>(3, '.')); 
 
     for (int i = 0; i < 3; i++)
         for (int j = 0; j < 3; j++)
-            subBoards[i][j] = new X_O_Board(); // كل Sub-board 3x3
+            subBoards[i][j] = new X_O_Board(); 
 
     last_x = last_y = -1;
 
-    // تهيئة البورد كله بالـ blank
+   
     for (int i = 0; i < 9; i++)
         for (int j = 0; j < 9; j++)
             board[i][j] = '.';
@@ -31,12 +31,12 @@ vector<vector<Board<char>*>>& Ultimate_Board::access_subBoards() {
     return subBoards;
 }
 
-
 // ---------------- Update Board ----------------
 bool Ultimate_Board::update_board(Move<char>* move) {
     int mx = move->get_x();
     int my = move->get_y();
     char sym = move->get_symbol();
+    
 
     if (mx < 0 || mx>8 || my < 0 || my>8) {
         cout << "Invalid coordinates!\n";
@@ -64,17 +64,23 @@ bool Ultimate_Board::update_board(Move<char>* move) {
     }
     delete sub_move;
 
-    // Update Main board status if sub-board won
+    
     Player<char>* tmpP = new Player<char>("tmp", sym, PlayerType::HUMAN);
     tmpP->set_board_ptr(sub);
+
     if (sub->is_win(tmpP)) {
         main_board_status[sbx][sby] = sym; // Main board update
+
+        // >>> NEW: announce sub-board winner <<<
+        cout << "\nPlayer " << current_playrer_name << " won Sub-board (" << sbx << "," << sby << ")!\n";
+
         // Copy sub-board to main 9x9 board for display
         auto mat = sub->get_board_matrix();
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++)
                 board[sbx * 3 + i][sby * 3 + j] = mat[i][j];
     }
+
     delete tmpP;
 
     // Required next board
@@ -176,6 +182,7 @@ Move<char>* Ultimate_UI::get_move(Player<char>* p) {
             << req.first << "," << req.second << ") unless it's full.\n";
         cout << p->get_name() << " enter global move (0-8) x y: ";
         cin >> x >> y;
+        board->set_current_player_name(p->get_name());
     }
     else {
         while (true) {
@@ -191,6 +198,7 @@ Move<char>* Ultimate_UI::get_move(Player<char>* p) {
         }
         cout << p->get_name() << " (Computer) plays (" << x << "," << y << ")\n";
     }
+    board->set_current_player_name(p->get_name());
     return new Move<char>(x, y, p->get_symbol());
 }
 
