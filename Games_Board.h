@@ -281,3 +281,29 @@ class Memory_TicTacToe_Board : public Board<char> {
          bool game_is_over(Player<char>* player) override;
          bool is_empty_cell(int r, int c);
 };
+
+class Ultimate_Board : public Board<char> {
+private:
+    vector<vector<Board<char>*>> subBoards; // كل Sub-board حجمه 3×3
+    vector<vector<char>> main_board_status; // حالة الفوز لكل sub-board
+    char blank = '.';
+    int last_x = -1;
+    int last_y = -1;
+
+public:
+    Ultimate_Board();
+
+    bool update_board(Move<char>* move) override;
+    bool is_win(Player<char>* player) override;
+    bool is_lose(Player<char>* player) override;
+    bool is_draw(Player<char>* player) override;
+    bool game_is_over(Player<char>* player) override;
+
+    bool is_sub_board_full(int sx, int sy);
+    bool force_anywhere() const;
+
+    vector<vector<Board<char>*>>& access_subBoards();
+    pair<int, int> get_required_subboard() const { return { last_x, last_y }; }
+    void display_board(); // عرض كامل للبورد
+    bool main_board_win(char sym);
+};
