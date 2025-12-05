@@ -110,3 +110,14 @@ public:
 
     Move<char>* get_move(Player<char>* player) override;
 };
+
+//Memory TicTacToe
+class Memory_TicTacToe_UI : public UI<char> {
+public:
+	Memory_TicTacToe_UI();
+    Move<char>* get_move(Player<char>*) override;
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
+
+    void display_board_matrix(const vector<vector<char>>& matrix) const override;
+
+};
