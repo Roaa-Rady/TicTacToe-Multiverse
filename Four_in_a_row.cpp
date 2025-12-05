@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <thread>
+#include <chrono>
 using namespace std;
 
 //  FourInARowBoard //
@@ -90,6 +92,137 @@ bool FourInARowBoard::game_is_over(Player<char>* player) {
     return true;
 }
 
+// AI
+int FourInARowBoard::evaluate_window(const std::vector<char>& window, char symbol) const {
+    char opp = (symbol == 'X') ? 'O' : 'X';
+    int score = 0;
+
+    int my_count = 0, opp_count = 0, empty_count = 0;
+    for (char c : window) {
+        if (c == symbol) my_count++;
+        else if (c == opp) opp_count++;
+        else empty_count++;
+    }
+
+    if (my_count == 4) return 100000;    
+    if (opp_count == 4) return -100000;   
+
+    if (my_count == 3 && empty_count == 1) score += 1000;
+    if (my_count == 2 && empty_count == 2) score += 100;
+
+    if (opp_count == 3 && empty_count == 1) score -= 1000; 
+
+    return score;
+}
+
+int FourInARowBoard::evaluate_board(char symbol) const {
+    int score = 0;
+    char opp = (symbol == 'X') ? 'O' : 'X';
+
+    // Horizontal
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < columns - 3; c++) {
+            std::vector<char> window = { board[r][c], board[r][c + 1], board[r][c + 2], board[r][c + 3] };
+            score += evaluate_window(window, symbol);
+        }
+    }
+
+    // Vertical
+    for (int r = 0; r < rows - 3; r++) {
+        for (int c = 0; c < columns; c++) {
+            std::vector<char> window = { board[r][c], board[r + 1][c], board[r + 2][c], board[r + 3][c] };
+            score += evaluate_window(window, symbol);
+        }
+    }
+
+    // Diagonal
+    for (int r = 0; r < rows - 3; r++) {
+    for (int c = 0; c < columns - 3; c++) {
+        std::vector<char> window = { board[r][c], board[r + 1][c + 1], board[r + 2][c + 2], board[r + 3][c + 3] };
+        score += evaluate_window(window, symbol);
+    }
+}
+
+return score;
+}
+
+
+int FourInARowBoard::minimax(int depth, bool isMaximizing, char aiSymbol, char humanSymbol, int alpha, int beta) {
+    if (depth == 0 || game_is_over(nullptr)) {
+        if (checkFour(aiSymbol)) return 1000000;
+        if (checkFour(humanSymbol)) return -1000000;
+        if (game_is_over(nullptr)) return 0;
+        return evaluate_board(aiSymbol);
+    }
+
+    if (isMaximizing) {
+        int maxEval = -10000000;
+        for (int col = 0; col < 7; col++) {
+            if (isColumnFull(col)) continue;
+
+            int row = dropToBottom(col, aiSymbol);  
+            int eval = minimax(depth - 1, false, aiSymbol, humanSymbol, alpha, beta);
+            board[row][col] = '.'; 
+            n_moves--;
+
+            maxEval = std::max(maxEval, eval);
+            alpha = std::max(alpha, eval);
+            if (beta <= alpha) break; 
+        }
+        return maxEval;
+    }
+    else {
+        int minEval = 10000000;
+        for (int col = 0; col < 7; col++) {
+            if (isColumnFull(col)) continue;
+
+            int row = dropToBottom(col, humanSymbol);
+            int eval = minimax(depth - 1, true, aiSymbol, humanSymbol, alpha, beta);
+            board[row][col] = '.';
+            n_moves--;
+
+            minEval = std::min(minEval, eval);
+            beta = std::min(beta, eval);
+            if (beta <= alpha) break;
+        }
+        return minEval;
+    }
+}
+
+
+int FourInARowBoard::get_best_move(char aiSymbol, int maxDepth) {
+    char humanSymbol = (aiSymbol == 'X') ? 'O' : 'X';
+    int bestScore = -10000000;
+    int bestCol = -1;
+
+    for (int col = 0; col < 7; col++) {
+        if (isColumnFull(col)) continue;
+
+        int row = dropToBottom(col, aiSymbol);
+
+        
+        if (checkFour(aiSymbol)) {
+            board[row][col] = '.';
+            n_moves--;
+            return col;
+        }
+        int score = minimax(maxDepth - 1, false, aiSymbol, humanSymbol, -10000000, 10000000);
+
+        board[row][col] = '.'; // undo
+        n_moves--;
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestCol = col;
+        }
+    }
+
+    return bestCol >= 0 ? bestCol : 3; 
+}
+
+
+
+
 // FourInARowUI //
 FourInARowUI::FourInARowUI() : UI<char>("Welcome to Four In A Row!", 4) {
     srand(time(0));
@@ -97,25 +230,38 @@ FourInARowUI::FourInARowUI() : UI<char>("Welcome to Four In A Row!", 4) {
 
 Player<char>* FourInARowUI::create_player(string& name, char symbol, PlayerType type) {
     return new Player<char>(name, symbol, type);
-}
 
 Move<char>* FourInARowUI::get_move(Player<char>* player) {
     int col;
-    Board<char>* b = player->get_board_ptr();
+    FourInARowBoard* b = dynamic_cast<FourInARowBoard*>(player->get_board_ptr());
 
     if (player->get_type() == PlayerType::HUMAN) {
         cout << player->get_name() << " (" << player->get_symbol() << ") enter column (0-6): ";
-        cin >> col;
+        while (!(cin >> col)  col < 0  col > 6 || b->isColumnFull(col)) {
+            cout << "Invalid or full column! Try again: ";
+            cin.clear();
+            cin.ignore(10000, '\n');
+        }
     }
     else {
-        do {
-            col = rand() % 7;
-        } while (b->get_board_matrix()[5][col] != '.');
-        cout << player->get_name() << " (Computer) played column " << col << "\n";
+        cout << player->get_name() << " (AI) is thinking";
+        for (int i = 0; i < 3; i++) {
+            cout << ".";
+            cout.flush();
+            std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        }
+        cout << "\n";
+
+        int depth = (player->get_symbol() == 'X') ? 8 : 7; 
+        col = b->get_best_move(player->get_symbol(), depth);
+
+        cout << player->get_name() << " (AI) played column " << col << "\n";
     }
 
     return new Move<char>(0, col, player->get_symbol());
 }
+
+
 
 void FourInARowUI::display_final_result(Player<char>* p1, Player<char>* p2) {
     system("cls");
