@@ -54,11 +54,11 @@ int main() {
         //Numerical TicTacToe
     else if (choice == 2) {
     cout << "\n--- Starting Numerical Tic-Tac-Toe ---\n\n";
-    UI<int>* ui = new Numerical_TicTacToe_UI();
-    Board<int>* board = new Numerical_TicTacToe_Board();
-    Player<int>** players = ui->setup_players();
+    UI<char>* ui = new Numerical_TicTacToe_UI();
+    Board<char>* board = new Numerical_TicTacToe_Board();
+    Player<char>** players = ui->setup_players();
 
-    GameManager<int> game(board, players, ui);
+    GameManager<char> game(board, players, ui);
     game.run();
 
     delete board;
