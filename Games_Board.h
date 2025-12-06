@@ -112,6 +112,10 @@ public:
     bool game_is_over(Player<char>* player) override;
     void display_scores();
     int count_SUS_sequences(char symbol);
+
+int evaluate() const;
+int minimax(int depth, char aiSymbol, bool isMaximizing);
+void get_best_move(char aiSymbol, int& bestX, int& bestY);
 };
 
 
