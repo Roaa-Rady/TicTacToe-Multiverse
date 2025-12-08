@@ -275,6 +275,12 @@ public:
     bool is_cell_empty(int x, int y) const;
     bool has_line_of_3(char sym);
     bool has_line_of_4(char sym);
+ char get_value(int x, int y) const {
+     return board[x][y];
+ }
+ void set_value(int x, int y, char v) {
+     board[x][y] = v;
+ }
 
 private:
     bool has_line(Player<char>* player, int length);
