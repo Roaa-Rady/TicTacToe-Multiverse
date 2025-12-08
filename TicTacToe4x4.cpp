@@ -90,15 +90,6 @@ bool TicTacToe4x4_Board::game_is_over(Player<char>* player)
 {
     return is_win(player) || is_lose(player) || is_draw(player);
 }
-//UI implementation
-TicTacToe4x4_UI::TicTacToe4x4_UI() : UI<char>("Welcome to 4x4 Tic-Tac-Toe!", 3) {
-      srand(static_cast<unsigned int>(std::time(nullptr)));
-}
-
-Player<char>* TicTacToe4x4_UI::create_player(string& name, char symbol, PlayerType type) {
-    cout << "Creating player: " << name << endl;
-    return new Player<char>(name, symbol, type);
-}
 
 //AI algorithm
 int evaluateSimple(Board<char>* b, char aiSymbol) {
@@ -195,6 +186,18 @@ std::pair<int, int> findBestMove(Board<char>* b, char aiSymbol) {
 
     return bestMove;
 }
+
+
+//UI implementation
+TicTacToe4x4_UI::TicTacToe4x4_UI() : UI<char>("Welcome to 4x4 Tic-Tac-Toe!", 3) {
+      srand(static_cast<unsigned int>(std::time(nullptr)));
+}
+
+Player<char>* TicTacToe4x4_UI::create_player(string& name, char symbol, PlayerType type) {
+    cout << "Creating player: " << name << endl;
+    return new Player<char>(name, symbol, type);
+}
+
 
 
 Move<char>* TicTacToe4x4_UI::get_move(Player<char>* player) {
