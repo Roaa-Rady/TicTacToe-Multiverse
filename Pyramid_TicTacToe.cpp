@@ -79,18 +79,6 @@ bool Pyramid_TicTacToe_Board::game_is_over(Player<char>* player) {
     return is_win(player) || is_lose(player) || is_draw(player);
 }
 
-
-//UI implementation
-Pyramid_TicTacToe_UI::Pyramid_TicTacToe_UI()
-    : UI<char>("Welcome to Pyramid TicTacToe!", 2) {}
-
-
-Player<char>* Pyramid_TicTacToe_UI::create_player(
-    string& name, char symbol, PlayerType type)
-{
-    return new Player<char>(name, symbol, type);
-}
-
 //AI  algorithm
 int evaluate(Pyramid_TicTacToe_Board* board, char aiSymbol) {
     Player<char> ai("AI", aiSymbol, PlayerType::COMPUTER);
@@ -160,6 +148,19 @@ pair<int, int> findBestMove(Pyramid_TicTacToe_Board* board, char aiSymbol) {
     }
     return bestMove;
 }
+
+
+//UI implementation
+Pyramid_TicTacToe_UI::Pyramid_TicTacToe_UI()
+    : UI<char>("Welcome to Pyramid TicTacToe!", 2) {}
+
+
+Player<char>* Pyramid_TicTacToe_UI::create_player(
+    string& name, char symbol, PlayerType type)
+{
+    return new Player<char>(name, symbol, type);
+}
+
 
 
 Move<char>* Pyramid_TicTacToe_UI::get_move(Player<char>* player) {
