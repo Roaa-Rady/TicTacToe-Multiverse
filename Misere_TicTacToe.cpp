@@ -1,17 +1,24 @@
-#include"Games_Board.h"
-#include"Games_UI.h"
+#include "Games_Board.h"
+#include "Games_UI.h"
 #include <cstdlib>
 #include <limits>
-#include<vector>
+#include <vector>
+#include <iostream>
 
 using namespace std;
 
 // Board //
 
-Misere_TicTacToe_Board::Misere_TicTacToe_Board() : Board<char>(3, 3) { for (auto& row : board) for (auto& c : row) c = blank_symbol; }
+Misere_TicTacToe_Board::Misere_TicTacToe_Board() : Board<char>(3, 3) {
+    for (auto& row : board)
+        for (auto& c : row)
+            c = blank_symbol;
+}
 
 bool Misere_TicTacToe_Board::update_board(Move<char>* move) {
-    int x = move->get_x(); int y = move->get_y(); char mark = move->get_symbol();
+    int x = move->get_x();
+    int y = move->get_y();
+    char mark = move->get_symbol();
 
     if (x < 0 || x >= rows || y < 0 || y >= columns) {
         cout << "Invalid position!\n";
@@ -26,7 +33,6 @@ bool Misere_TicTacToe_Board::update_board(Move<char>* move) {
     board[x][y] = mark;
     n_moves++;
     return true;
-
 }
 
 bool Misere_TicTacToe_Board::is_lose(Player<char>* player) {
@@ -48,7 +54,6 @@ bool Misere_TicTacToe_Board::is_lose(Player<char>* player) {
     if (line(board[0][2], board[1][1], board[2][0])) return true;
 
     return false;
-
 }
 
 bool Misere_TicTacToe_Board::is_win(Player<char>*) { return false; }
@@ -57,10 +62,12 @@ bool Misere_TicTacToe_Board::is_draw(Player<char>* p) { return (n_moves == 9 && 
 
 bool Misere_TicTacToe_Board::game_is_over(Player<char>* p) { return is_lose(p) || is_draw(p); }
 
-////UI//
+//// UI ////
 Misere_TicTacToe_UI::Misere_TicTacToe_UI() : UI<char>("Welcome to Misère Tic Tac Toe!", 3) {}
 
-Player<char>* Misere_TicTacToe_UI::create_player(string& name, char symbol, PlayerType type) { return new Player<char>(name, symbol, type); }
+Player<char>* Misere_TicTacToe_UI::create_player(string& name, char symbol, PlayerType type) {
+    return new Player<char>(name, symbol, type);
+}
 
 int empty_cells(const Misere_TicTacToe_Board* b) {
     int cnt = 0;
@@ -69,7 +76,6 @@ int empty_cells(const Misere_TicTacToe_Board* b) {
             if (b->get_value(i, j) == '.') cnt++;
     return cnt;
 }
-
 
 int minimax(Misere_TicTacToe_Board* board, bool is_ai_turn, char ai_sym, char human_sym) {
     Player<char> dummy("temp", is_ai_turn ? ai_sym : human_sym, PlayerType::HUMAN);
@@ -116,72 +122,58 @@ Move<char>* Misere_TicTacToe_UI::get_move(Player<char>* player) {
     char AI = player->get_symbol();
     char YOU = (AI == 'X') ? 'O' : 'X';
 
-    
-    int last_x = -1, last_y = -1;
-    for (int i = 0; i < 3; ++i)
-        for (int j = 0; j < 3; ++j)
-            if (board->get_value(i, j) == YOU) {
-                last_x = i;
-                last_y = j;
-            }
-
+    vector<pair<int, int>> possibleMoves;
     vector<pair<int, int>> safeMoves;
 
-    
+    // اجمع كل الحركات الممكنة
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
-            if (board->get_value(i, j) != '.') continue;
+            if (board->get_value(i, j) == '.') {
+                possibleMoves.push_back({ i,j });
 
-            bool sameRow = (i == last_x);
-            bool sameCol = (j == last_y);
-            bool sameMainDiag = (i == j && last_x == last_y);
-            bool sameAntiDiag = (i + j == 2 && last_x + last_y == 2);
-
-            if (sameRow || sameCol || sameMainDiag || sameAntiDiag)
-                continue;
-
-            
-            board->set_value(i, j, AI);
-            Player<char> tempAI("tempAI", AI, PlayerType::COMPUTER);
-            tempAI.set_board_ptr(board);
-            if (board->is_lose(&tempAI)) {
+                // تحقق من الخسارة الفورية
+                board->set_value(i, j, AI);
+                Player<char> tmpAI("tempAI", AI, PlayerType::COMPUTER);
+                tmpAI.set_board_ptr(board);
+                bool causesLose = board->is_lose(&tmpAI);
                 board->set_value(i, j, '.');
-                continue;
-            }
-            board->set_value(i, j, '.');
 
-            safeMoves.push_back({ i, j });
+                if (!causesLose) safeMoves.push_back({ i,j });
+            }
         }
     }
+
+    // لو مافيش safeMoves → fallback = كل possibleMoves
+    if (safeMoves.empty()) safeMoves = possibleMoves;
 
     int best_x = -1, best_y = -1;
     int best_score = -999999;
 
-    
-    if (safeMoves.empty()) {
-        for (int i = 0; i < 3 && best_x == -1; ++i)
-            for (int j = 0; j < 3; ++j)
-                if (board->get_value(i, j) == '.') {
-                    best_x = i;
-                    best_y = j;
-                    break;
-                }
-        return new Move<char>(best_x, best_y, AI);
-    }
-
-    
-    for (auto move : safeMoves) {
+    // تقييم كل الحركات الممكنة (طباعة)
+    for (auto move : possibleMoves) {
         board->set_value(move.first, move.second, AI);
         int score = minimax(board, false, AI, YOU);
         board->set_value(move.first, move.second, '.');
 
-       
-        cout << "Computer Evaluating Move At (" << move.first << ", " << move.second << ") = " << score << "\n";
-        if (score > best_score || (score == best_score && score == 0)) {
-            best_score = score;
-            best_x = move.first;
-            best_y = move.second;
+        cout << "Evaluating Move At (" << move.first << ", " << move.second << ") = " << score;
+        if (find(safeMoves.begin(), safeMoves.end(), move) != safeMoves.end())
+            cout << " [SAFE]";
+        cout << "\n";
+
+        // اختار أفضل حركة ضمن safeMoves إذا موجودة
+        if (find(safeMoves.begin(), safeMoves.end(), move) != safeMoves.end()) {
+            if (score > best_score || best_score == -999999) {
+                best_score = score;
+                best_x = move.first;
+                best_y = move.second;
+            }
         }
+    }
+
+    // fallback نهائي: لو كل شيء فشل (مافيش safeMoves)
+    if (best_x == -1 || best_y == -1) {
+        best_x = safeMoves[0].first;
+        best_y = safeMoves[0].second;
     }
 
     cout << player->get_name() << " (Computer) played (" << best_x << ", " << best_y << ")\n";
