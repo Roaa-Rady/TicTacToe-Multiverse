@@ -4,7 +4,6 @@
 #include <vector>
 #include <algorithm>
 #include <climits>
-#include <windows.h>
 using namespace std;
 
 
