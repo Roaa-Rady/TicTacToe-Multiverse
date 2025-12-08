@@ -92,7 +92,9 @@ bool FourInARowBoard::game_is_over(Player<char>* player) {
     return true;
 }
 
-// AI
+
+
+
 int FourInARowBoard::evaluate_window(const std::vector<char>& window, char symbol) const {
     char opp = (symbol == 'X') ? 'O' : 'X';
     int score = 0;
@@ -222,7 +224,6 @@ int FourInARowBoard::get_best_move(char aiSymbol, int maxDepth) {
 
 
 
-
 // FourInARowUI //
 FourInARowUI::FourInARowUI() : UI<char>("Welcome to Four In A Row!", 4) {
     srand(time(0));
@@ -230,6 +231,8 @@ FourInARowUI::FourInARowUI() : UI<char>("Welcome to Four In A Row!", 4) {
 
 Player<char>* FourInARowUI::create_player(string& name, char symbol, PlayerType type) {
     return new Player<char>(name, symbol, type);
+}
+
 
 Move<char>* FourInARowUI::get_move(Player<char>* player) {
     int col;
@@ -237,7 +240,7 @@ Move<char>* FourInARowUI::get_move(Player<char>* player) {
 
     if (player->get_type() == PlayerType::HUMAN) {
         cout << player->get_name() << " (" << player->get_symbol() << ") enter column (0-6): ";
-        while (!(cin >> col)  col < 0  col > 6 || b->isColumnFull(col)) {
+        while (!(cin >> col) || col < 0 || col > 6 || b->isColumnFull(col)) {
             cout << "Invalid or full column! Try again: ";
             cin.clear();
             cin.ignore(10000, '\n');
@@ -260,6 +263,7 @@ Move<char>* FourInARowUI::get_move(Player<char>* player) {
 
     return new Move<char>(0, col, player->get_symbol());
 }
+
 
 
 
