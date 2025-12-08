@@ -101,7 +101,7 @@ public:
     void show_result(const Word_TicTacToe_Board* board, Player<char>* winner) const;
 };
 
-/Diamond game//
+//Diamond game//
 class Diamond_UI : public UI<char> {
 public:
     Diamond_UI();
