@@ -39,7 +39,7 @@ int main() {
         //bouns games//
         cout << "----------Bouns Games----------\n";
         cout << "13. UItimate Tic_Tac-Toe\n";
-        cout << "14. Memory Tic_Tac-Toe\n\n";
+        cout << "14. Memory Tic_Tac-Toe\n";
         cout << "15.Exit\n";
         cout << "Enter your choice: \n";
         cin >> choice;
