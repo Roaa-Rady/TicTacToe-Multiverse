@@ -18,7 +18,7 @@ int main() {
 
     srand(static_cast<unsigned int>(time(0)));  // Seed the random number generator
     while (true) {
-        int choice=0;
+        int choice;
         cout << "Welcome To Game Application\n\n";
         //Individual Games//
         cout << "----------Individual Games----------\n";
