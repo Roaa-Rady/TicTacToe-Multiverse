@@ -185,11 +185,11 @@ int main() {
         }
         else if (choice == 10) {
             // ---------- Numerical Tic-Tac-Toe ----------
-            UI<int>* game_ui = new Numerical_TicTacToe_UI();
-            Board<int>* board = new Numerical_TicTacToe_Board();
-            Player<int>** players = game_ui->setup_players();
+            UI<char>* game_ui = new Numerical_TicTacToe_UI();
+            Board<char>* board = new Numerical_TicTacToe_Board();
+            Player<char>** players = game_ui->setup_players();
 
-            GameManager<int> game(board, players, game_ui);
+            GameManager<char> game(board, players, game_ui);
             game.run();
 
             delete board;
