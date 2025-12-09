@@ -151,7 +151,7 @@ public:
     bool game_is_over(Player<char>* player) override;
 
     /// @brief Checks if a specific cell is empty
-    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == ' ; }
+    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == ' '; }
 };
 
 /// @brief SUS Tic-Tac-Toe game board class
