@@ -61,16 +61,16 @@ public:
 };
 
 /// @brief Numerical Tic-Tac-Toe UI class
-class Numerical_TicTacToe_UI : public UI<int> {
+class Numerical_TicTacToe_UI : public UI<char> {
 public:
     /// @brief Constructor
     Numerical_TicTacToe_UI();
 
     /// @brief Creates a player for the game
-    Player<int>* create_player(string& name, int symbol, PlayerType type) override;
+    Player<char>* create_player(string& name, char symbol, PlayerType type) override;
 
     /// @brief Gets a move from the player
-    Move<int>* get_move(Player<int>* player) override;
+    Move<char>* get_move(Player<char>* player) override;
 };
 
 /// @brief SUS Tic-Tac-Toe UI class
