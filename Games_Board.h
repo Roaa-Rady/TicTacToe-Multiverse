@@ -130,28 +130,28 @@ public:
     }
 };
 /// @brief Numerical Tic-Tac-Toe game board class
-class Numerical_TicTacToe_Board : public Board<int> {
+class Numerical_TicTacToe_Board : public Board<char> {
 public:
     /// @brief Constructor
     Numerical_TicTacToe_Board();
 
     /// @brief Updates the board with a move
-    bool update_board(Move<int>* move) override;
+    bool update_board(Move<char>* move) override;
 
     /// @brief Checks if the player has won
-    bool is_win(Player<int>* player) override;
+    bool is_win(Player<char>* player) override;
 
     /// @brief Checks if the player has lost
-    bool is_lose(Player<int>* p) override;
+    bool is_lose(Player<char>* p) override;
 
     /// @brief Checks if the game is draw
-    bool is_draw(Player<int>* player) override;
+    bool is_draw(Player<char>* player) override;
 
     /// @brief Checks if the game is over
-    bool game_is_over(Player<int>* player) override;
+    bool game_is_over(Player<char>* player) override;
 
     /// @brief Checks if a specific cell is empty
-    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == 0; }
+    bool is_cell_empty(int x, int y) const { return this->get_value(x, y) == ' ; }
 };
 
 /// @brief SUS Tic-Tac-Toe game board class
