@@ -45,33 +45,7 @@ int evaluate_5x5(const vector<vector<char>>& board, char me, char opp) {
     return score;
 }
 
-// Minimax function
-int minimax_5x5(vector<vector<char>> board, int depth, bool maximizing, char me, char opp, int alpha, int beta) {
-    if (depth == 0) return evaluate_5x5(board, me, opp);
 
-    int best = maximizing ? INT_MIN : INT_MAX;
-
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            if (board[i][j] == '.') {
-                board[i][j] = maximizing ? me : opp;
-                int val = minimax_5x5(board, depth - 1, !maximizing, me, opp, alpha, beta);
-                board[i][j] = '.';
-
-                if (maximizing) {
-                    best = max(best, val);
-                    alpha = max(alpha, best);
-                }
-                else {
-                    best = min(best, val);
-                    beta = min(beta, best);
-                }
-                if (beta <= alpha) return best;
-            }
-        }
-    }
-    return best;
-}
 
 // choosing best move function
 pair<int, int> get_best_move_5x5(const vector<vector<char>>& board, char me, char opp) {
